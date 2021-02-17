@@ -10,8 +10,7 @@ import edu.eci.arsw.blueprints.model.Point;
 import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
 import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import edu.eci.arsw.blueprints.persistence.impl.InMemoryBlueprintPersistence;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -65,10 +64,53 @@ public class InMemoryPersistenceTest {
         catch (BlueprintPersistenceException ex){
             
         }
-                
+    }
+    
+    @Test
+    public void getBluePrint() {
+        InMemoryBlueprintPersistence ibpp=new InMemoryBlueprintPersistence();
+        
+        Point[] pts=new Point[]{new Point(0, 0),new Point(10, 10)};
+        Blueprint bp=new Blueprint("Laura", "thehachi",pts);
+        
+        try {
+            ibpp.getBlueprint(bp.getAuthor(),bp.getName());
+        } catch (BlueprintNotFoundException ex) {
+            fail("Blueprint not found");
+        }
+        
+        Point[] pts2=new Point[]{new Point(10, 10),new Point(50, 50)};
+        Blueprint bp2=new Blueprint("Angelica", "thedangus",pts2);
+
+        try {
+            ibpp.getBlueprint(bp2.getAuthor(),bp2.getName());
+        } catch (BlueprintNotFoundException ex) {
+            fail("Blueprint not found");
+        }          
         
     }
-
-
     
+    @Test
+    public void getBlueprintsByAuthor() {
+        InMemoryBlueprintPersistence ibpp=new InMemoryBlueprintPersistence();
+        
+        Point[] pts=new Point[]{new Point(0, 0),new Point(15, 15)};
+        Blueprint bp=new Blueprint("Alejandra", "thepapa",pts);
+        
+        try {
+            ibpp.getBlueprintsByAuthor(bp.getAuthor());
+        } catch (BlueprintNotFoundException ex) {
+            fail("Blueprint not found");
+        }
+        
+        Point[] pts2=new Point[]{new Point(10, 10),new Point(50, 50)};
+        Blueprint bp2=new Blueprint("Maria", "thepepe",pts2);
+
+        try {
+            ibpp.getBlueprintsByAuthor(bp2.getAuthor());
+        } catch (BlueprintNotFoundException ex) {
+            fail("Blueprint not found");
+        }          
+        
+    }
 }
